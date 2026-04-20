@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+// Update Kode
 class BarangController extends Controller
 {
     public function index(){
