@@ -1,5 +1,5 @@
 <?php
-
+//barang
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
