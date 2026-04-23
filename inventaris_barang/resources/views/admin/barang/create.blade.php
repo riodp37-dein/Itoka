@@ -1,30 +1,416 @@
-<h1>Tambah Barang</h1>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Data Barang - Sistem Inventaris</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-@if($errors->any())
-<ul style="color:red">
-@foreach($errors->all() as $e)
-<li>{{ $e }}</li>
-@endforeach
-</ul>
-@endif
+        body {
+            font-family: 'Arial', sans-serif;
+            background: repeating-linear-gradient(
+                90deg,
+                #F5E6E8 0px,
+                #F5E6E8 40px,
+                #FFEEF1 40px,
+                #FFEEF1 80px
+            );
+            min-height: 100vh;
+            display: flex;
+        }
 
-<form method="POST" action="/admin/barang">
-@csrf
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: repeating-linear-gradient(
+                90deg,
+                #8B7675 0px,
+                #8B7675 40px,
+                #9A8584 40px,
+                #9A8584 80px
+            );
+            color: white;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
 
-<label>Nama Barang</label><br>
-<input type="text" name="nama_barang"><br><br>
+        .sidebar-header {
+            padding: 25px 20px;
+            background-color: rgba(107, 91, 90, 0.3);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
 
-<label>Kode Barang</label><br>
-<input type="text" name="kode_barang"><br><br>
+        .sidebar-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
 
-<label>Stok</label><br>
-<input type="number" name="stok"><br><br>
+        .sidebar-menu {
+            flex: 1;
+            padding: 30px 0;
+        }
 
-<label>Lokasi</label><br>
-<input type="text" name="lokasi"><br><br>
+        .menu-item {
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+        }
 
-<button type="submit">Simpan</button>
-</form>
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: #F5E6E8;
+            color: white;
+        }
 
-<br>
-<a href="{{ route('admin.barang.index') }}">Kembali</a>
+        .logout-btn {
+            padding: 15px 25px;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(139, 118, 117, 0.1);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #2D2424;
+            font-weight: 700;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background-color: #8B7675;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            border: 3px solid #6B5B5A;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: calc(100vh - 85px);
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px 50px;
+            border-radius: 20px;
+            border: 3px solid #E8D4D6;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Error Messages */
+        .error-list {
+            background-color: #FFE5E5;
+            color: #C62828;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #C62828;
+        }
+
+        .error-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .error-list li {
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .error-list li:before {
+            content: "⚠ ";
+            margin-right: 5px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            color: #2D2424;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #D4C4C3;
+            border-radius: 12px;
+            font-size: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            color: #2D2424;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B7675;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(139, 118, 117, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #B4A4A3;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #6B5B5A;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #5A4A49;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 91, 90, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #6B5B5A;
+            border: 2px solid #6B5B5A;
+        }
+
+        .btn-secondary:hover {
+            background-color: #6B5B5A;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .form-card {
+                padding: 30px 25px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>INVENTARIS</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="{{ route('admin.dashboard') }}" class="menu-item">Dashboard</a>
+            <a href="{{ route('admin.barang.index') }}" class="menu-item active">Data Barang</a>
+            <a href="#" class="menu-item">Barang Masuk</a>
+            <a href="#" class="menu-item">Barang Keluar</a>
+            <a href="#" class="menu-item">Laporan</a>
+        </nav>
+        <form action="/logout" method="POST" style="margin: 0;">
+            @csrf
+            <button type="submit" class="logout-btn">
+                <span>↩</span> Logout
+            </button>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Tambah Data Barang</h1>
+            <div class="user-avatar">👤</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="form-card">
+                @if($errors->any())
+                <div class="error-list">
+                    <ul>
+                        @foreach($errors->all() as $e)
+                        <li>{{ $e }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
+                <form method="POST" action="{{ route('admin.barang.store') }}">
+                    @csrf
+
+                    <div class="form-group">
+                        <label for="kode_barang">Kode Barang</label>
+                        <input 
+                            type="text" 
+                            id="kode_barang" 
+                            name="kode_barang" 
+                            placeholder="Masukkan kode barang"
+                            value="{{ old('kode_barang') }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nama_barang">Nama Barang</label>
+                        <input 
+                            type="text" 
+                            id="nama_barang" 
+                            name="nama_barang" 
+                            placeholder="Masukkan nama barang"
+                            value="{{ old('nama_barang') }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stok">Jumlah</label>
+                        <input 
+                            type="number" 
+                            id="stok" 
+                            name="stok" 
+                            placeholder="Masukkan jumlah stok"
+                            value="{{ old('stok') }}"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lokasi">Lokasi</label>
+                        <input 
+                            type="text" 
+                            id="lokasi" 
+                            name="lokasi" 
+                            placeholder="Masukkan lokasi penyimpanan"
+                            value="{{ old('lokasi') }}"
+                        >
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            💾 Simpan
+                        </button>
+                        <a href="{{ route('admin.barang.index') }}" class="btn btn-secondary">
+                            ← Kembali
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
