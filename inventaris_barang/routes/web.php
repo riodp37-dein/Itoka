@@ -13,7 +13,10 @@ use App\Http\Controllers\Pimpinan\DashboardController as PimpinanDashboard;
 use App\Http\Controllers\Karyawan\DashboardController as KaryawanDashboard;
 use App\Http\Controllers\Karyawan\BarangController as KaryawanBarang;
 
-Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::get('/', function () {
+    return view('landing');
+});
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
