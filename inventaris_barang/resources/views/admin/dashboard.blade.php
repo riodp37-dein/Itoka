@@ -13,13 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: repeating-linear-gradient(
-                90deg,
-                #F5E6E8 0px,
-                #F5E6E8 40px,
-                #FFEEF1 40px,
-                #FFEEF1 80px
-            );
+            background-color: #F5F5F5;
             min-height: 100vh;
             display: flex;
         }
@@ -27,13 +21,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: repeating-linear-gradient(
-                90deg,
-                #8B7675 0px,
-                #8B7675 40px,
-                #9A8584 40px,
-                #9A8584 80px
-            );
+            background-color: #1E3A8A;
             color: white;
             padding: 0;
             display: flex;
@@ -46,14 +34,15 @@
 
         .sidebar-header {
             padding: 25px 20px;
-            background-color: rgba(107, 91, 90, 0.3);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.15);
+            border-bottom: none;
         }
 
         .sidebar-header h2 {
             font-size: 22px;
             font-weight: 700;
             letter-spacing: 2px;
+            color: #FFFFFF;
         }
 
         .sidebar-menu {
@@ -63,7 +52,7 @@
 
         .menu-item {
             padding: 15px 25px;
-            color: rgba(255, 255, 255, 0.9);
+            color: #FFFFFF;
             text-decoration: none;
             display: block;
             transition: all 0.3s;
@@ -73,8 +62,8 @@
 
         .menu-item:hover,
         .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left-color: #F5E6E8;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-left-color: #FFFFFF;
             color: white;
         }
 
@@ -106,17 +95,17 @@
 
         /* Header */
         .header {
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: #1E3A8A;
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid rgba(139, 118, 117, 0.1);
+            border-bottom: none;
         }
 
         .header h1 {
-            font-size: 28px;
-            color: #2D2424;
+            font-size: 24px;
+            color: #FFFFFF;
             font-weight: 700;
         }
 
@@ -142,6 +131,7 @@
         /* Content Area */
         .content {
             padding: 30px 40px;
+            background-color: #F5F5F5;
         }
 
         /* Stats Cards */
@@ -266,8 +256,8 @@
         }
 
         table th {
-            background-color: #8B7675;
-            color: white;
+            background-color: #1E3A8A;
+            color: #FFFFFF;
             padding: 12px;
             text-align: left;
             font-size: 14px;
@@ -276,7 +266,7 @@
 
         table td {
             padding: 12px;
-            border-bottom: 1px solid #E8D4D6;
+            border-bottom: 1px solid #F0F0F0;
             font-size: 14px;
             color: #2D2424;
         }

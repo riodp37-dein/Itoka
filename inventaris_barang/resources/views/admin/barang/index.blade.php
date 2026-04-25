@@ -13,13 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: repeating-linear-gradient(
-                90deg,
-                #F5E6E8 0px,
-                #F5E6E8 40px,
-                #FFEEF1 40px,
-                #FFEEF1 80px
-            );
+            background-color: #E8E8E8;
             min-height: 100vh;
             display: flex;
         }
@@ -27,13 +21,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: repeating-linear-gradient(
-                90deg,
-                #8B7675 0px,
-                #8B7675 40px,
-                #9A8584 40px,
-                #9A8584 80px
-            );
+            background-color: #1E3A8A;
             color: white;
             padding: 0;
             display: flex;
@@ -46,14 +34,15 @@
 
         .sidebar-header {
             padding: 25px 20px;
-            background-color: rgba(107, 91, 90, 0.3);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.15);
+            border-bottom: none;
         }
 
         .sidebar-header h2 {
             font-size: 22px;
             font-weight: 700;
             letter-spacing: 2px;
+            color: #FFFFFF;
         }
 
         .sidebar-menu {
@@ -63,7 +52,7 @@
 
         .menu-item {
             padding: 15px 25px;
-            color: rgba(255, 255, 255, 0.9);
+            color: #FFFFFF;
             text-decoration: none;
             display: block;
             transition: all 0.3s;
@@ -73,8 +62,8 @@
 
         .menu-item:hover,
         .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left-color: #F5E6E8;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-left-color: #FFFFFF;
             color: white;
         }
 
@@ -106,17 +95,23 @@
 
         /* Header */
         .header {
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: #1E3A8A;
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid rgba(139, 118, 117, 0.1);
+            border-bottom: none;
         }
 
         .header h1 {
             font-size: 32px;
-            color: #2D2424;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #FFFFFF;
             font-weight: 700;
         }
 
@@ -127,10 +122,10 @@
         }
 
         .add-btn {
-            background-color: #6B5B5A;
-            color: white;
+            background-color: #B8B8B8;
+            color: #333;
             padding: 12px 25px;
-            border-radius: 10px;
+            border-radius: 8px;
             text-decoration: none;
             font-size: 15px;
             font-weight: 600;
@@ -141,22 +136,22 @@
         }
 
         .add-btn:hover {
-            background-color: #5A4A49;
+            background-color: #A8A8A8;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(107, 91, 90, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .user-avatar {
             width: 45px;
             height: 45px;
-            background-color: #8B7675;
+            background-color: #FFFFFF;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 20px;
-            border: 3px solid #6B5B5A;
+            color: #1E3A8A;
+            font-size: 28px;
+            border: 2px solid #FFFFFF;
         }
 
         /* Content Area */
@@ -177,10 +172,11 @@
 
         /* Table Card */
         .table-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            border: 3px solid #E8D4D6;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            border: none;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         /* Table */
@@ -194,7 +190,7 @@
         }
 
         table thead {
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: #1E3A8A;
         }
 
         table th {
@@ -202,15 +198,15 @@
             text-align: left;
             font-size: 15px;
             font-weight: 700;
-            color: #2D2424;
-            border-bottom: 2px solid #E8D4D6;
+            color: #FFFFFF;
+            border-bottom: 2px solid #1E3A8A;
         }
 
         table td {
             padding: 18px 15px;
-            border-bottom: 1px solid #F5E6E8;
+            border-bottom: 1px solid #F0F0F0;
             font-size: 14px;
-            color: #2D2424;
+            color: #333;
         }
 
         table tbody tr {
@@ -218,7 +214,7 @@
         }
 
         table tbody tr:hover {
-            background-color: rgba(139, 118, 117, 0.05);
+            background-color: #F8F8F8;
         }
 
         /* Action Buttons */
@@ -242,23 +238,23 @@
         }
 
         .btn-edit {
-            color: #6B5B5A;
-            border-color: #6B5B5A;
+            color: #666;
+            border-color: #999;
             text-decoration: none;
         }
 
         .btn-edit:hover {
-            background-color: #6B5B5A;
+            background-color: #999;
             color: white;
         }
 
         .btn-delete {
-            color: #C62828;
-            border-color: #C62828;
+            color: #DC2626;
+            border-color: #DC2626;
         }
 
         .btn-delete:hover {
-            background-color: #C62828;
+            background-color: #DC2626;
             color: white;
         }
 

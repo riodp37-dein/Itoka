@@ -21,13 +21,7 @@
         /* Left Side - Info Section */
         .left-section {
             flex: 1;
-            background: repeating-linear-gradient(
-                90deg,
-                #6B5B5A 0px,
-                #6B5B5A 40px,
-                #7A6968 40px,
-                #7A6968 80px
-            );
+            background-color: #6B6B6B;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,13 +49,7 @@
         /* Right Side - Login Form */
         .right-section {
             flex: 1;
-            background: repeating-linear-gradient(
-                90deg,
-                #F5E6E8 0px,
-                #F5E6E8 40px,
-                #FFEEF1 40px,
-                #FFEEF1 80px
-            );
+            background-color: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -79,14 +67,14 @@
 
         .login-header h2 {
             font-size: 32px;
-            color: #2D2424;
+            color: #000;
             margin-bottom: 12px;
             font-weight: 700;
         }
 
         .login-header p {
             font-size: 15px;
-            color: #6B5B5A;
+            color: #666;
             line-height: 1.6;
         }
 
@@ -97,7 +85,7 @@
         .form-group label {
             display: block;
             font-size: 15px;
-            color: #2D2424;
+            color: #000;
             margin-bottom: 8px;
             font-weight: 600;
         }
@@ -109,22 +97,22 @@
         .form-group input {
             width: 100%;
             padding: 14px 18px;
-            border: 2px solid #D4C4C3;
-            border-radius: 12px;
+            border: 2px solid #CCCCCC;
+            border-radius: 8px;
             font-size: 15px;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: #FFFFFF;
             transition: all 0.3s;
-            color: #2D2424;
+            color: #333;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #8B7675;
+            border-color: #999;
             background-color: white;
         }
 
         .form-group input::placeholder {
-            color: #B4A4A3;
+            color: #999;
         }
 
         .password-toggle {
@@ -133,17 +121,17 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: #8B7675;
+            color: #999;
             font-size: 18px;
         }
 
         .login-btn {
             width: 100%;
             padding: 15px;
-            background-color: #6B5B5A;
+            background-color: #6B6B6B;
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -152,16 +140,16 @@
         }
 
         .login-btn:hover {
-            background-color: #5A4A49;
+            background-color: #5A5A5A;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(107, 91, 90, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .divider {
             display: flex;
             align-items: center;
             margin: 25px 0;
-            color: #8B7675;
+            color: #999;
             font-size: 14px;
         }
 
@@ -170,7 +158,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background-color: #D4C4C3;
+            background-color: #CCCCCC;
         }
 
         .divider span {
@@ -181,9 +169,9 @@
             width: 100%;
             padding: 14px;
             background-color: white;
-            color: #2D2424;
-            border: 2px solid #D4C4C3;
-            border-radius: 12px;
+            color: #333;
+            border: 2px solid #CCCCCC;
+            border-radius: 8px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
@@ -195,8 +183,8 @@
         }
 
         .google-btn:hover {
-            border-color: #8B7675;
-            background-color: #FAFAFA;
+            border-color: #999;
+            background-color: #F5F5F5;
         }
 
         .forgot-password {
@@ -205,14 +193,14 @@
         }
 
         .forgot-password a {
-            color: #6B5B5A;
+            color: #666;
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s;
         }
 
         .forgot-password a:hover {
-            color: #5A4A49;
+            color: #333;
             text-decoration: underline;
         }
 
@@ -318,7 +306,7 @@
                             placeholder="Masukkan password Anda"
                             required
                         >
-                        <span class="password-toggle" onclick="togglePassword()">🔒</span>
+                        <span class="password-toggle" onclick="togglePassword()"></span>
                     </div>
                 </div>
 
