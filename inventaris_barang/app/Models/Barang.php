@@ -1,8 +1,9 @@
 <?php
-//barang
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Barang extends Model
 {
@@ -12,4 +13,9 @@ class Barang extends Model
         'stok',
         'lokasi'
     ];
+
+    public function transaksis(): HasMany
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }
