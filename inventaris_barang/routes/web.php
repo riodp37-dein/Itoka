@@ -61,7 +61,7 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
 });
 
 // PIMPINAN
-Route::middleware(['auth','role:pimpinan'])->prefix('pimpinan')->group(function(){
+Route::middleware(['auth', 'role:' . User::ROLE_PIMPINAN])->prefix('pimpinan')->group(function(){
     Route::get('/dashboard', [PimpinanDashboard::class, 'index'])
             ->name('pimpinan.dashboard');
     Route::get('/laporan', [PimpinanLaporan::class, 'index'])
