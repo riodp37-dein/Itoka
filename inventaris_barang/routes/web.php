@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Models\User;
 
 // Admin
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\BarangController as AdminBarang;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporan;
 use App\Http\Controllers\Admin\TransaksiController as AdminTransaksi;
+use App\Http\Controllers\Admin\UserController as AdminUser;
 
 // Pimpinan
 use App\Http\Controllers\Pimpinan\DashboardController as PimpinanDashboard;
@@ -27,6 +29,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
     Route::get('/dashboard', [AdminDashboard::class, 'index'])
             ->name('admin.dashboard'); 
+    Route::get('/users', [AdminUser::class, 'index'])
+            ->name('admin.users.index');
+    Route::post('/users', [AdminUser::class, 'store'])
+            ->name('admin.users.store');
+    Route::get('/users/{user}/edit', [AdminUser::class, 'edit'])
+            ->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminUser::class, 'update'])
+            ->name('admin.users.update');
+    Route::delete('/users/{user}', [AdminUser::class, 'destroy'])
+            ->name('admin.users.destroy');
     Route::resource('/barang', AdminBarang::class)
             ->except('show')
             ->names('admin.barang');
