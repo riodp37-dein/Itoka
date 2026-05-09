@@ -33,10 +33,10 @@
         <div>
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold py-2 px-8 rounded-lg transition duration-300 shadow-sm">DASHBOARD</a>
-                @else
+                    <a href="{{ url('/login') }}" class="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold py-2 px-8 rounded-lg transition duration-300 shadow-sm">LOGIN</a>
+                <!-- @else
                     <a href="{{ route('login') }}" class="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold py-2 px-8 rounded-lg transition duration-300 shadow-sm text-sm md:text-base">LOGIN</a>
-                @endif
+                @endif -->
             @endif
         </div>
     </nav>
