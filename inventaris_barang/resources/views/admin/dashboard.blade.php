@@ -20,21 +20,13 @@
         .user-avatar { width: 45px; height: 45px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1E3A8A; font-size: 18px; font-weight: 700; }
         .content { padding: 30px 40px; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
         .stat-card { background-color: #FFFFFF; padding: 24px; border-radius: 16px; border: 1px solid #E5E7EB; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
         .stat-card h3 { font-size: 14px; color: #6B7280; margin-bottom: 10px; }
         .stat-card .number { font-size: 34px; color: #111827; font-weight: 700; }
-        .dashboard-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; margin-bottom: 24px; }
         .card { background-color: #FFFFFF; padding: 24px; border-radius: 16px; border: 1px solid #E5E7EB; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
         .card h2 { font-size: 20px; color: #111827; margin-bottom: 18px; }
-        .chart-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end; height: 220px; padding-top: 8px; }
-        .chart-group { display: flex; align-items: end; gap: 6px; height: 100%; }
-        .chart-bar { flex: 1; border-radius: 10px 10px 0 0; min-height: 18px; }
-        .bar-stock { background: linear-gradient(180deg, #3B82F6 0%, #1E3A8A 100%); }
-        .bar-min { background: linear-gradient(180deg, #FCA5A5 0%, #DC2626 100%); }
-        .chart-label { margin-top: 10px; font-size: 12px; color: #6B7280; text-align: center; }
-        .chart-legend { display: flex; gap: 18px; margin-top: 16px; font-size: 14px; color: #4B5563; }
-        .legend-item { display: flex; align-items: center; gap: 8px; }
-        .legend-color { width: 16px; height: 16px; border-radius: 4px; }
+        .chart-wrapper { position: relative; height: 320px; }
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #1E3A8A; color: #FFFFFF; padding: 12px; text-align: left; font-size: 14px; }
@@ -111,29 +103,8 @@
                 <div class="card">
                     <h2>Ringkasan Stok</h2>
                     @if($stokTerbanyak->count() > 0)
-                        @php
-                            $maxStock = max($stokTerbanyak->max('stok'), 1);
-                        @endphp
-                        <div class="chart-container">
-                            @foreach($stokTerbanyak as $barang)
-                                <div>
-                                    <div class="chart-group">
-                                        <div class="chart-bar bar-stock" style="height: {{ max(($barang->stok / $maxStock) * 100, 12) }}%;"></div>
-                                        <div class="chart-bar bar-min" style="height: {{ $barang->stok <= 5 ? 100 : 12 }}%;"></div>
-                                    </div>
-                                    <div class="chart-label">{{ \Illuminate\Support\Str::limit($barang->nama_barang, 10) }}</div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="chart-legend">
-                            <div class="legend-item">
-                                <div class="legend-color" style="background-color: #1E3A8A;"></div>
-                                <span>Stok saat ini</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background-color: #DC2626;"></div>
-                                <span>Indikator stok kritis</span>
-                            </div>
+                        <div class="chart-wrapper">
+                            <canvas id="adminStockChart"></canvas>
                         </div>
                     @else
                         <p class="empty-text">Belum ada data barang untuk ditampilkan.</p>
@@ -254,5 +225,36 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const adminStockChartData = @json($stokChart);
+        if (adminStockChartData.labels.length) {
+            new Chart(document.getElementById('adminStockChart'), {
+                type: 'bar',
+                data: {
+                    labels: adminStockChartData.labels,
+                    datasets: adminStockChartData.datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

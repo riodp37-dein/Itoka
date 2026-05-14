@@ -20,14 +20,17 @@
         .user-avatar { width: 45px; height: 45px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1E3A8A; font-size: 18px; font-weight: 700; }
         .content { padding: 30px 40px; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; margin-bottom: 24px; }
         .stat-card, .info-card { background-color: #FFFFFF; padding: 24px; border-radius: 16px; border: 1px solid #E5E7EB; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
         .stat-card h3 { font-size: 14px; color: #6B7280; margin-bottom: 10px; }
         .stat-card .number { font-size: 32px; font-weight: 700; color: #111827; }
         .info-card h2 { font-size: 20px; color: #111827; margin-bottom: 12px; }
         .info-card p { color: #4B5563; line-height: 1.6; margin-bottom: 16px; }
         .report-link { display: inline-block; padding: 12px 18px; border-radius: 10px; text-decoration: none; background-color: #1E3A8A; color: #FFFFFF; font-weight: 700; }
+        .chart-wrapper { position: relative; height: 320px; }
         @media (max-width: 1100px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .sidebar { width: 200px; }
@@ -83,6 +86,22 @@
                 </div>
             </div>
 
+            <div class="dashboard-grid">
+                <div class="info-card">
+                    <h2>Ringkasan Stok</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="pimpinanStockChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h2>Kondisi Persediaan</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="pimpinanSupplyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
             <div class="info-card">
                 <h2>Laporan Inventaris</h2>
                 <p>Gunakan halaman laporan untuk melihat rekap barang masuk, barang keluar, dan detail transaksi berdasarkan rentang tanggal tertentu.</p>
@@ -90,5 +109,53 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const pimpinanStockChartData = @json($stokChart);
+        const pimpinanSupplyChartData = @json($ringkasanPersediaanChart);
+
+        new Chart(document.getElementById('pimpinanStockChart'), {
+            type: 'bar',
+            data: {
+                labels: pimpinanStockChartData.labels,
+                datasets: pimpinanStockChartData.datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('pimpinanSupplyChart'), {
+            type: 'doughnut',
+            data: {
+                labels: pimpinanSupplyChartData.labels,
+                datasets: pimpinanSupplyChartData.datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
