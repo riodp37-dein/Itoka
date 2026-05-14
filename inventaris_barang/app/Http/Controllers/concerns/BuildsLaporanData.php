@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Concerns;
 
+use App\Models\Barang;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 trait BuildsLaporanData
 {
@@ -55,6 +58,46 @@ trait BuildsLaporanData
             ->orderBy('barangs.nama_barang')
             ->get();
 
+        $periodeHarian = collect();
+        $cursor = $start->copy()->startOfDay();
+        $lastDay = $end->copy()->startOfDay();
+
+        while ($cursor->lte($lastDay)) {
+            $periodeHarian->push($cursor->copy());
+            $cursor->addDay();
+        }
+
+        $transaksiHarian = (clone $baseQuery)
+            ->selectRaw("DATE(transaksis.created_at) as tanggal")
+            ->selectRaw("SUM(CASE WHEN jenis = 'masuk' THEN jumlah ELSE 0 END) as total_masuk")
+            ->selectRaw("SUM(CASE WHEN jenis = 'keluar' THEN jumlah ELSE 0 END) as total_keluar")
+            ->groupBy(DB::raw("DATE(transaksis.created_at)"))
+            ->orderBy(DB::raw("DATE(transaksis.created_at)"))
+            ->get()
+            ->keyBy('tanggal');
+
+        $trenTransaksiChart = [
+            'labels' => $periodeHarian->map(fn (Carbon $date) => $date->format('d M'))->values(),
+            'masuk' => $periodeHarian->map(
+                fn (Carbon $date) => (int) optional($transaksiHarian->get($date->toDateString()))->total_masuk
+            )->values(),
+            'keluar' => $periodeHarian->map(
+                fn (Carbon $date) => (int) optional($transaksiHarian->get($date->toDateString()))->total_keluar
+            )->values(),
+        ];
+
+        $topBarangChartSource = $rekapBarang
+            ->sortByDesc(fn ($barang) => ($barang->total_masuk + $barang->total_keluar))
+            ->take(8)
+            ->values();
+
+        $rekapBarangChart = [
+            'labels' => $topBarangChartSource->map(fn ($barang) => Str::limit($barang->nama_barang, 12))->values(),
+            'masuk' => $topBarangChartSource->map(fn ($barang) => (int) $barang->total_masuk)->values(),
+            'keluar' => $topBarangChartSource->map(fn ($barang) => (int) $barang->total_keluar)->values(),
+            'stok' => $topBarangChartSource->map(fn ($barang) => (int) $barang->stok)->values(),
+        ];
+
         return [
             'filters' => [
                 'start_date' => $validated['start_date'],
@@ -67,6 +110,8 @@ trait BuildsLaporanData
             'transaksiMasuk' => $transaksiMasuk,
             'transaksiKeluar' => $transaksiKeluar,
             'rekapBarang' => $rekapBarang,
+            'trenTransaksiChart' => $trenTransaksiChart,
+            'rekapBarangChart' => $rekapBarangChart,
         ];
     }
 }
