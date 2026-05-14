@@ -19,7 +19,7 @@ use App\Http\Controllers\Karyawan\DashboardController as KaryawanDashboard;
 use App\Http\Controllers\Karyawan\BarangController as KaryawanBarang;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('welcome');
 });
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
