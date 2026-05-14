@@ -30,6 +30,8 @@
         .stats-card h3 { font-size: 14px; color: #6B7280; margin-bottom: 10px; }
         .stats-card .number { font-size: 32px; font-weight: 700; color: #111827; }
         .section-title { font-size: 20px; color: #111827; margin-bottom: 18px; }
+        .chart-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; margin-bottom: 24px; }
+        .chart-wrapper { position: relative; height: 320px; }
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #1E3A8A; color: white; padding: 12px; text-align: left; font-size: 14px; }
@@ -37,7 +39,7 @@
         .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         @media (max-width: 1100px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .split-grid, .filter-grid { grid-template-columns: 1fr; }
+            .split-grid, .filter-grid, .chart-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .sidebar { width: 200px; }
@@ -107,6 +109,22 @@
                 <div class="stats-card">
                     <h3>Total Unit Keluar</h3>
                     <div class="number">{{ $totalBarangKeluar }}</div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="table-card">
+                    <h2 class="section-title">Tren Transaksi Harian</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="laporanTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h2 class="section-title">Perbandingan Per Barang</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="laporanBarangChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -207,5 +225,91 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const laporanTrendChartData = @json($trenTransaksiChart);
+        const laporanBarangChartData = @json($rekapBarangChart);
+
+        new Chart(document.getElementById('laporanTrendChart'), {
+            type: 'line',
+            data: {
+                labels: laporanTrendChartData.labels,
+                datasets: [
+                    {
+                        label: 'Masuk',
+                        data: laporanTrendChartData.masuk,
+                        borderColor: '#2563EB',
+                        backgroundColor: 'rgba(37, 99, 235, 0.15)',
+                        tension: 0.35,
+                        fill: true,
+                    },
+                    {
+                        label: 'Keluar',
+                        data: laporanTrendChartData.keluar,
+                        borderColor: '#DC2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.12)',
+                        tension: 0.35,
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('laporanBarangChart'), {
+            type: 'bar',
+            data: {
+                labels: laporanBarangChartData.labels,
+                datasets: [
+                    {
+                        label: 'Masuk',
+                        data: laporanBarangChartData.masuk,
+                        backgroundColor: '#1D4ED8',
+                        borderRadius: 8,
+                    },
+                    {
+                        label: 'Keluar',
+                        data: laporanBarangChartData.keluar,
+                        backgroundColor: '#F97316',
+                        borderRadius: 8,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
