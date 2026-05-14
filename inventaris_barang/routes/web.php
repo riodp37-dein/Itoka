@@ -19,7 +19,7 @@ use App\Http\Controllers\Karyawan\DashboardController as KaryawanDashboard;
 use App\Http\Controllers\Karyawan\BarangController as KaryawanBarang;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('welcome');
 });
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -70,7 +70,12 @@ Route::middleware(['auth', 'role:' . User::ROLE_PIMPINAN])->prefix('pimpinan')->
 
 // KARYAWAN
 Route::middleware(['auth','role:karyawan'])->prefix('karyawan')->group(function(){
-    Route::get('/dashboard',[KaryawanDashboard::class,'index']);
-    Route::get('/barang',[KaryawanBarang::class,'index']);
-    Route::get('/barang/{id}',[KaryawanBarang::class,'show']);
+    Route::get('/dashboard',[KaryawanDashboard::class,'index'])
+            ->name('karyawan.dashboard');
+    Route::get('/barang',[KaryawanBarang::class,'index'])
+            ->name('karyawan.barang.index');
+    Route::post('/barang/{barang}/keluar',[KaryawanBarang::class,'storePengeluaran'])
+            ->name('karyawan.barang.keluar');
+    Route::get('/barang/{id}',[KaryawanBarang::class,'show'])
+            ->name('karyawan.barang.show');
 });
