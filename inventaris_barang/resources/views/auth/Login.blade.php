@@ -70,6 +70,17 @@
             </div>
             @endif
 
+            @if(session('status'))
+            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-xl mb-6 shadow-sm">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-emerald-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.172 7.707 8.879a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-emerald-700 font-semibold text-sm">{{ session('status') }}</span>
+                </div>
+            </div>
+            @endif
+
             <form method="POST" action="/login" class="space-y-6">
                 @csrf
                 
@@ -112,7 +123,7 @@
                         <label for="remember" class="ml-2.5 block text-sm text-gray-600 font-semibold cursor-pointer">Ingat Saya</label>
                     </div>
                     <div class="text-sm">
-                        <a href="#" class="font-bold text-[#2563EB] hover:text-[#1D4ED8] transition duration-200">Lupa password?</a>
+                        <a href="{{ route('password.request') }}" class="font-bold text-[#2563EB] hover:text-[#1D4ED8] transition duration-200">Lupa password?</a>
                     </div>
                 </div>
 

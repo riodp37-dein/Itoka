@@ -22,7 +22,14 @@ class BarangController extends Controller
     public function show($id): View
     {
         $data = Barang::findOrFail($id);
-        return view('karyawan.barang.show', compact('data'));
+        $riwayatPengeluaran = $data->transaksis()
+            ->with('user')
+            ->keluar()
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('karyawan.barang.show', compact('data', 'riwayatPengeluaran'));
     }
 
     public function storePengeluaran(Request $request, Barang $barang): RedirectResponse

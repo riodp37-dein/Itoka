@@ -19,11 +19,14 @@
         .header h1 { font-size: 28px; color: #FFFFFF; font-weight: 700; }
         .user-avatar { width: 45px; height: 45px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1E3A8A; font-size: 18px; font-weight: 700; }
         .content { padding: 30px 40px; }
+        .alert { padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; }
+        .alert-success { background-color: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
         .table-container { overflow-x: auto; background-color: #FFFFFF; border-radius: 16px; border: 1px solid #E5E7EB; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #1E3A8A; color: #FFFFFF; padding: 15px; text-align: left; font-size: 14px; }
         table td { padding: 15px; border-bottom: 1px solid #E5E7EB; font-size: 14px; color: #1F2937; }
-        .action-link { color: #1E3A8A; text-decoration: none; font-weight: 600; background-color: #EFF6FF; padding: 8px 12px; border-radius: 6px; }
+        .action-cell { white-space: nowrap; }
+        .action-link { color: #1E3A8A; text-decoration: none; font-weight: 600; background-color: #EFF6FF; padding: 8px 12px; border-radius: 6px; display: inline-block; }
         .action-link:hover { background-color: #DBEAFE; }
         @media (max-width: 768px) {
             .sidebar { width: 200px; }
@@ -59,6 +62,12 @@
         </div>
 
         <div class="content">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <div class="table-container">
                 <table>
                     <thead>
@@ -77,8 +86,8 @@
                             <td>{{ $d->kode_barang }}</td>
                             <td>{{ $d->stok }}</td>
                             <td>{{ $d->lokasi }}</td>
-                            <td>
-                                <a href="{{ url('/karyawan/barang/' . $d->id) }}" class="action-link">Lihat</a>
+                            <td class="action-cell">
+                                <a href="{{ route('karyawan.barang.show', $d->id) }}" class="action-link">Lihat</a>
                             </td>
                         </tr>
                         @endforeach
