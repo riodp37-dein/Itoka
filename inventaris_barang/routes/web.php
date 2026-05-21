@@ -28,6 +28,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->middleware('guest')->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->middleware('guest')->name('password.email');
 
+Route::get('/contact-admin', function () {
+    return view('auth.contact-admin');
+})->name('contact-admin');
+
 // ADMIN
 Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
     Route::get('/dashboard', [AdminDashboard::class, 'index'])
