@@ -334,6 +334,7 @@
         </div>
         <nav class="sidebar-menu">
             <a href="{{ route('admin.dashboard') }}" class="menu-item">Dashboard</a>
+            <a href="{{ route('admin.users.index') }}" class="menu-item">Kelola Akun</a>
             <a href="{{ route('admin.barang.index') }}" class="menu-item active">Data Barang</a>
             <a href="{{ route('admin.transaksi.masuk.index') }}" class="menu-item">Barang Masuk</a>
             <a href="{{ route('admin.transaksi.keluar.index') }}" class="menu-item">Barang Keluar</a>
@@ -356,7 +357,7 @@
                 <a href="{{ route('admin.barang.create') }}" class="add-btn">
                     <span>+</span> Tambah Barang
                 </a>
-                <div class="user-avatar">👤</div>
+                <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
             </div>
         </div>
 
