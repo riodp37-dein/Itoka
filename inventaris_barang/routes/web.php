@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\User;
 
@@ -24,6 +25,8 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->middleware('guest')->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->middleware('guest')->name('password.email');
 
 Route::get('/contact-admin', function () {
     return view('auth.contact-admin');
@@ -62,6 +65,8 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
             ->name('admin.transaksi.destroy');
     Route::get('/laporan', [AdminLaporan::class, 'index'])
             ->name('admin.laporan.index');
+    Route::get('/laporan/export/pdf', [AdminLaporan::class, 'exportPdf'])
+            ->name('admin.laporan.export.pdf');
 });
 
 // PIMPINAN
@@ -70,6 +75,8 @@ Route::middleware(['auth', 'role:' . User::ROLE_PIMPINAN])->prefix('pimpinan')->
             ->name('pimpinan.dashboard');
     Route::get('/laporan', [PimpinanLaporan::class, 'index'])
             ->name('pimpinan.laporan.index');
+    Route::get('/laporan/export/pdf', [PimpinanLaporan::class, 'exportPdf'])
+            ->name('pimpinan.laporan.export.pdf');
 });
 
 // KARYAWAN

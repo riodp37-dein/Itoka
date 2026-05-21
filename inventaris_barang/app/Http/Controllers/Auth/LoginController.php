@@ -15,24 +15,21 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // ✅ Validasi input
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-
-            $request->session()->regenerate(); // ✅ keamanan
+            $request->session()->regenerate();
 
             $role = Auth::user()->role;
 
-            // ✅ Redirect berdasarkan role
-            if ($role == 'admin') {
+            if ($role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
 
-            if ($role == 'pimpinan') {
+            if ($role === 'pimpinan') {
                 return redirect('/pimpinan/dashboard');
             }
 
@@ -46,7 +43,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        // ✅ wajib untuk keamanan
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

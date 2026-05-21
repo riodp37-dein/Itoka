@@ -24,7 +24,10 @@
         .filter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: end; }
         .form-group label { display: block; font-size: 14px; font-weight: 700; color: #374151; margin-bottom: 8px; }
         .form-group input { width: 100%; padding: 12px 14px; border: 1px solid #D1D5DB; border-radius: 10px; font-size: 14px; }
-        .filter-btn { padding: 12px 18px; border: none; background-color: #1E3A8A; color: white; border-radius: 10px; cursor: pointer; font-weight: 700; }
+        .filter-actions { display: flex; gap: 12px; align-items: center; }
+        .filter-btn, .export-btn { padding: 12px 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+        .filter-btn { background-color: #1E3A8A; color: white; }
+        .export-btn { background-color: #047857; color: white; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
         .stats-card { padding: 24px; }
         .stats-card h3 { font-size: 14px; color: #6B7280; margin-bottom: 10px; }
@@ -92,7 +95,15 @@
                             <label for="end_date">Tanggal Akhir</label>
                             <input type="date" id="end_date" name="end_date" value="{{ $filters['end_date'] }}" required>
                         </div>
-                        <button type="submit" class="filter-btn">Tampilkan Laporan</button>
+                        <div class="filter-actions">
+                            <button type="submit" class="filter-btn">Tampilkan Laporan</button>
+                            <a
+                                href="{{ route($exportPdfRoute, ['start_date' => $filters['start_date'], 'end_date' => $filters['end_date']]) }}"
+                                class="export-btn"
+                            >
+                                Export PDF
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
