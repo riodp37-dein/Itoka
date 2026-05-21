@@ -65,6 +65,7 @@
         </div>
         <nav class="sidebar-menu">
             <a href="{{ route($dashboardRoute) }}" class="menu-item">Dashboard</a>
+            <a href="{{ route('admin.users.index') }}" class="menu-item">Kelola Akun</a>
             <a href="{{ route($barangRoute) }}" class="menu-item">Data Barang</a>
             <a href="{{ route($masukRoute) }}" class="menu-item">Barang Masuk</a>
             <a href="{{ route($keluarRoute) }}" class="menu-item">Barang Keluar</a>

@@ -59,6 +59,7 @@
         </div>
         <nav class="sidebar-menu">
             <a href="{{ route('admin.dashboard') }}" class="menu-item">Dashboard</a>
+            <a href="{{ route('admin.users.index') }}" class="menu-item">Kelola Akun</a>
             <a href="{{ route('admin.barang.index') }}" class="menu-item">Data Barang</a>
             <a href="{{ route('admin.transaksi.masuk.index') }}" class="menu-item {{ $jenis === 'masuk' ? 'active' : '' }}">Barang Masuk</a>
             <a href="{{ route('admin.transaksi.keluar.index') }}" class="menu-item {{ $jenis === 'keluar' ? 'active' : '' }}">Barang Keluar</a>
