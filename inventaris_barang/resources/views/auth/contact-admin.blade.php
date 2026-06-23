@@ -94,7 +94,7 @@
             
             <div class="admin-contact">
                 <p>Silakan hubungi Administrator:</p>
-                <p>Email: admin@admin.com</p>
+                <p>Email: admin@gmail.com</p>
                 <p>WhatsApp: +62 812-3456-7890</p>
             </div>
 
